@@ -1,0 +1,18 @@
+#!/bin/bash
+# Script for submiting your lab work or assignment on your own machine
+# Move this file under path /usr/local/bin/ on your machine
+# Or simplly run install.sh
+# Usage: give class assignment files...
+# Written by Luca(Wei) Chen
+# z5155740@unsw.edu.au
+# Last modify on 30, Oct, 2017
+
+CLASS=$1
+ASSIGNMENT=$2
+FILES=${@:3}
+
+SERVER_NAME="cse"
+
+ssh ${SERVER_NAME} 'rm -rf give_tmp; mkdir give_tmp' >/dev/null 2>&1
+scp ${FILES} ${SERVER_NAME}:~/give_tmp >/dev/null 2>&1
+ssh ${SERVER_NAME} -t -q "cd give_tmp; give ${CLASS} ${ASSIGNMENT} ${FILES}; cd ..; rm -rf give_tmp"
